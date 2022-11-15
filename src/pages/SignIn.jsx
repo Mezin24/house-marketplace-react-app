@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useRoutes, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { ReactComponent as ArrowIcon } from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
 import hiddenIcon from '../assets/svg/hide-private-hidden-icon.svg';
@@ -11,12 +12,34 @@ const SignIn = () => {
     password: '',
   });
 
+  const navigate = useNavigate();
+  const { email, password } = enteredValues;
+
   const onInputChangeHandler = (e) => {
     setEnteredValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const toggleVisibility = () => {
     setIsVisible((prev) => !prev);
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      if (userCredential.user) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -26,7 +49,7 @@ const SignIn = () => {
           <p className='pageHeader'>Welcome Back</p>
         </header>
         <main>
-          <form>
+          <form onSubmit={onSubmit}>
             <input
               type='email'
               placeholder='Email'
