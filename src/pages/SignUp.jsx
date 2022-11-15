@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import { db } from '../firebase.config';
 import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 import { ReactComponent as ArrowIcon } from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
@@ -56,7 +57,7 @@ const SignIn = () => {
 
       navigate('/');
     } catch (error) {
-      console.log(error);
+      toast.error('Something went wrong with registration...');
     }
   };
 
