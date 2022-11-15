@@ -35,6 +35,7 @@ const SignIn = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const auth = getAuth();
 
@@ -45,6 +46,7 @@ const SignIn = () => {
       );
 
       const user = userCredential.user;
+
       updateProfile(auth.currentUser, {
         displayName: name,
       });
@@ -57,7 +59,7 @@ const SignIn = () => {
 
       navigate('/');
     } catch (error) {
-      toast.error('Something went wrong with registration...');
+      toast.error('Something went wrong with registration');
     }
   };
 
